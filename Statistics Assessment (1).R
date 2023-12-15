@@ -52,7 +52,7 @@ exoplanet_df$planet_radius[is.na(exoplanet_df$planet_radius)] <- mean(exoplanet_
 exoplanet_df$stellar_effective_temperature[is.na(exoplanet_df$stellar_effective_temperature)] <- mean(exoplanet_df$stellar_effective_temperature, na.rm=TRUE)
 exoplanet_df$planet_eccentricity[is.na(exoplanet_df$planet_eccentricity)] <- mean(exoplanet_df$planet_eccentricity, na.rm=TRUE)
 exoplanet_df$planet_equilibrium_temperature[is.na(exoplanet_df$planet_equilibrium_temperature)] <- mean(exoplanet_df$planet_equilibrium_temperature, na.rm=TRUE)
-exoplanet_df$stellar_radius[is.na(exoplanet_df$stellar_radius)] <- medan(exoplanet_df$stellar_radius, na.rm=TRUE)
+exoplanet_df$stellar_radius[is.na(exoplanet_df$stellar_radius)] <- median(exoplanet_df$stellar_radius, na.rm=TRUE)
 exoplanet_df$stellar_mass[is.na(exoplanet_df$stellar_mass)] <- mean(exoplanet_df$stellar_mass, na.rm=TRUE)
 exoplanet_df$stellar_metallicity[is.na(exoplanet_df$stellar_metallicity)] <- mean(exoplanet_df$stellar_metallicity, na.rm=TRUE)
 exoplanet_df$stellar_surface_gravity[is.na(exoplanet_df$stellar_surface_gravity)] <- mean(exoplanet_df$stellar_surface_gravity, na.rm=TRUE)
@@ -66,36 +66,6 @@ exoplanet_df$stellar_metratio <- str_replace(exoplanet_df$stellar_metratio,
                                              "\\[Me/H\\]", "\\[Fe/H\\]")
 exoplanet_df$stellar_metratio <- str_replace(exoplanet_df$stellar_metratio,
                                              "\\[m/H\\]", "\\[M/H\\]")
-
-
-
-
-#Discovery method usage per decade
-ggplot(exoplanet_df, aes(y=discovery_method)) + geom_bar() + labs(y = "Discovery Method",
-       x = "Number of times method was successfully used",
-       title= "A graph showing the methods used to discover exoplanets") +
-  facet_grid(discovery_decade~.)
-
-
-
-#How far away are these planets from our solar system?
-ggplot(exoplanet_df, aes(x=distance_from_solar_system)) + geom_boxplot() +
-  labs(x = "Distance (in Parsec)", main = "A boxplot to show the distance the planets are from our solar system")+ 
-  facet_grid(discovery_method~discovery_decade)
-
-
-
-
-
-
-#Do exoplanet masses have a normal distribution?
-ggplot(exoplanet_df, aes(x=Mass)) + geom_boxplot() +
-  labs(x = "Mass of Exoplanet (in unit masses of the Earth)",
-       title = "The distribution of the mass of exoplanets")
-
-        
-
-
 
 
 
