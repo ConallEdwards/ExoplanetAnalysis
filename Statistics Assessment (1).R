@@ -113,7 +113,7 @@ ggplot(exoplanet_df, aes(x=planet_radius)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 
-
+#Applying wilcox test to the planet radius
 wilcox.test(exoplanet_df$planet_radius, 
             mu = 1,
             alternative = "two.sided")
@@ -135,27 +135,31 @@ pairs.panels(exoplanet_df[c("stellar_effective_temperature", "stellar_radius", "
 
 
 
-
+#Creating linear model for stellar brightness
 brightness_model <- lm(formula = stellar_gaia_magnitude ~ stellar_effective_temperature + 
                          stellar_radius + stellar_mass + stellar_metallicity +
                          stellar_surface_gravity + distance_from_solar_system +
                          num_of_stars + num_of_planets , data = exoplanet_df )
+
+#View how well the model performed
 summary(brightness_model)
 
 
-
+#Creating new attribute to improve linear model performance
 exoplanet_df$stellar_density <- exoplanet_df$stellar_mass / ((exoplanet_df$stellar_radius * 2) * 3.1415 * (4/3))
 
 
-
+#Creating new linear model for 
 brightness_model2 <- lm(formula = stellar_gaia_magnitude ~ stellar_effective_temperature + 
                          stellar_mass + stellar_radius + stellar_density +
                           stellar_metallicity  +
                          stellar_surface_gravity + distance_from_solar_system +
                          num_of_stars, data = exoplanet_df )
+
+#View how well the model performed
 summary(brightness_model2)
 
-
+#Plot residuals in a boxplot
 boxplot(brightness_model2$residuals, main="A boxplot showing the residuals of the brightness model")
 
 
@@ -170,8 +174,10 @@ boxplot(brightness_model2$residuals, main="A boxplot showing the residuals of th
 
 
 #Question 3 - Is the radius of the Sun similar to that of other stellars? 
+#See if any extreme values are found
 summary(exoplanet_df$stellar_radius)
 
+#Show distribution of the stellar radius attribute
 ggplot(exoplanet_df, aes(x=stellar_radius)) + 
   geom_histogram(color="darkblue", fill = "lightblue") + 
   labs(x = "The radius of the stellar, in radii of the sun",
@@ -180,7 +186,7 @@ ggplot(exoplanet_df, aes(x=stellar_radius)) +
   theme(plot.title = element_text(hjust = 0.5))
 
 
-
+#Apply one-sample t-test to stellar radius attribute
 t.test(x = exoplanet_df$stellar_radius, mu = 1.00)
 
 
@@ -192,8 +198,10 @@ t.test(x = exoplanet_df$stellar_radius, mu = 1.00)
 
 
 #Question 4 - Do exoplanets take longer than a year (365.25 days) to orbit around their stellar? 
+#See if any extreme values are found
 summary(exoplanet_df$orbit_period_days)
 
+#Show distribution of the orbit period days attribute
 ggplot(exoplanet_df, aes(x=orbit_period_days)) + 
   geom_histogram(color="darkblue", fill = "lightblue") +
   labs(x = "The number of days it takes an exoplanet to orbit its stellar",
@@ -201,7 +209,7 @@ ggplot(exoplanet_df, aes(x=orbit_period_days)) +
        title = "A histogram to show how exoplanet orbital periods are distributed")+
   theme(plot.title = element_text(hjust = 0.5))
 
-
+#Apply sign test to the dataset
 binom.test(x = count(exoplanet_df$orbit_period_days > 30)[2,2],
            n = 2778,
            alternative = "less")
