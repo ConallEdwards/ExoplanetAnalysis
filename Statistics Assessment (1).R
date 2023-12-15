@@ -7,7 +7,7 @@ library(psych)
 
 
 #Load exoplanet dataset into R
-exoplanet_df <- read.csv("exoplanets4.csv", stringsAsFactors = TRUE)
+exoplanet_df <- read.csv("planetarysystem.csv", stringsAsFactors = TRUE)
 
 #View the first 5 rows of the dataset
 head(exoplanet_df)
